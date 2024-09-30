@@ -37,29 +37,16 @@ void loop() {
 
   distance = USS_measure(PIN_TRIG, PIN_ECHO); // read distance
 
-  int LED_Degree;
-
-  if ((distance == 0.0) || (distance > _DIST_MAX)) {
-      distance = _DIST_MAX + 10.0;    // Set Higher Value
-      LED_Degree = 255;     // LED OFF
-  } else if (distance < _DIST_MIN) {
-      distance = _DIST_MIN - 10.0;    // Set Lower Value
-      LED_Degree = 255;     // LED OFF
-  } else if (distance <= 112.5 || distance >= 287.5) {    
-      LED_Degree = 230;       // LED ON      
-  } else if (distance <= 125.0 || distance >= 275.0) {    
-      LED_Degree = 190;       // LED ON      
-  } else if (distance <= 137.5 || distance >= 262.5) {    
-      LED_Degree = 160;       // LED ON      
-  } else if (distance <= 150.0 || distance >= 250.0) {    
-      LED_Degree = 130;       // LED ON      
-  } else if (distance <= 162.5 || distance >= 237.5) {    
-      LED_Degree = 100;       // LED ON      
-  } else if (distance <= 175.0 || distance >= 225.0) {    
-      LED_Degree = 60;       // LED ON      
-  } else {    
-      LED_Degree = 0;       // LED ON      
+  int LED_Degree = 255;
+  if ((distance == 0.0) || (distance > _DIST_MAX)){
+    distance = _DIST_MAX + 10.0;
+  }else if (distance < _DIST_MIN){
+    distance = _DIST_MIN - 10.0;
+  }else{
+    LED_Degree = light(distance);
   }
+
+  
   analogWrite(PIN_LED, LED_Degree);
   // output the distance to the serial port
   Serial.print("Min:");        Serial.print(_DIST_MIN);
@@ -92,4 +79,12 @@ float USS_measure(int TRIG, int ECHO)
   //        = 100,000 micro*sec * 0.001 milli/micro * 0.5 * 346 meter/sec
   //        = 100,000 * 0.001 * 0.5 * 346
   //        = 17,300 mm  ==> 17.3m
+}
+
+int light(float dist)
+{
+  int LED_b;
+  int dis = dist / 1 - 200;
+  LED_b = abs(dis) * 2.5 / 1;
+  return LED_b;
 }
