@@ -47,16 +47,17 @@ void loop()
   a_value = analogRead(PIN_IR);
   dist_raw = ((6762.0 / (a_value - 9.0)) - 4.0) * 10.0;
 
-  //if ... // Put range Filter code here (_DIST_MIN ~ _DIST_MAX)
-  if ((dist_raw > _DIST_MAX) || (dist_raw < _DIST_MIN)) {
-    dist_raw = dist_prev;
-  }
   // and turn on LED if the distance is in the range 
   if ((dist_raw <= _DIST_MAX) || (dist_raw >= _DIST_MIN)) {
     digitalWrite(PIN_LED, 0);
   } else {
     digitalWrite(PIN_LED, 1);
   }
+  //if ... // Put range Filter code here (_DIST_MIN ~ _DIST_MAX)
+  if ((dist_raw > _DIST_MAX) || (dist_raw < _DIST_MIN)) {
+    dist_raw = dist_prev;
+  }
+  
   dist_ema = EMA_ALPHA * dist_raw + (1.0 - EMA_ALPHA) * dist_ema;// Put EMA filter code here
 
   dist_prev = dist_raw;
