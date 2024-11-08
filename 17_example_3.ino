@@ -13,7 +13,7 @@
 #define _DIST_MIN  100.0   // minimum distance 100mm
 #define _DIST_MAX  250.0   // maximum distance 250mm
 
-#define EMA_ALPHA  0.5      // for EMA Filter
+#define EMA_ALPHA  0.7      // for EMA Filter
 
 #define LOOP_INTERVAL 50   // Loop Interval (unit: msec)
 
@@ -48,7 +48,7 @@ void loop()
   dist_raw = ((6762.0 / (a_value - 9.0)) - 4.0) * 10.0;
 
   // and turn on LED if the distance is in the range 
-  if ((dist_raw <= _DIST_MAX) || (dist_raw >= _DIST_MIN)) {
+  if ((dist_raw <= _DIST_MAX) && (dist_raw >= _DIST_MIN)) {
     digitalWrite(PIN_LED, 0);
   } else {
     digitalWrite(PIN_LED, 1);
